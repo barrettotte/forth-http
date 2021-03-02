@@ -11,6 +11,7 @@ used as a student's introduction to computer architecture.
 
 | Opcode | Mnemonic | Description |
 | ---- | ---- | ---- |
+| ```000``` | ```HLT``` | Halt |
 | ```1xx``` | ```ADD``` | Add |
 | ```2xx``` | ```SUB``` | Subtract |
 | ```3xx``` | ```STA``` | Store |
@@ -20,7 +21,6 @@ used as a student's introduction to computer architecture.
 | ```8xx``` | ```BRP``` | Branch if positive (conditional) |
 | ```901``` | ```INP``` | Input |
 | ```902``` | ```OUT``` | Output |
-| ```000``` | ```HLT/COB``` | Halt / Coffee Break |
 | | ```DAT``` | Data |
 
 
