@@ -27,6 +27,11 @@ used as a student's introduction to computer architecture.
 ## Assembler
 
 
+## Prototype
+I've never written anything involving the LMC and I'm not very good at forth. So, I figured I would prototype things in python first.
+
+Invoke prototype with ```python3 prototype/lmc.py asm/test.ams```
+
 
 ## References
 
