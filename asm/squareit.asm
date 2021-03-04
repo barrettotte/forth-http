@@ -1,3 +1,5 @@
+; Example from https://en.wikipedia.org/wiki/Little_man_computer
+;
 START    LDA ZERO     ; Initialize for multiple program run
          STA RESULT   ;
          STA COUNT    ;
