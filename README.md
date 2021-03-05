@@ -37,4 +37,5 @@ Invoke prototype with ```python3 prototype/lmc.py asm/test.ams```
 
 - [Little man computer wiki](https://en.wikipedia.org/wiki/Little_man_computer)
 - [LMC Instruction Set](http://www.yorku.ca/sychen/research/LMC/LMCInstructions.html)
-
+- [Gforth Manual](https://www.complang.tuwien.ac.at/forth/gforth/Docs-html/)
+- [And so Forth...](https://thebeez.home.xs4all.nl/ForthPrimer/Forth_primer.html)
