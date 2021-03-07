@@ -4,27 +4,17 @@
 \ Calls assembler to assemble source file and passes "binary"
 \ to emulator for execution.
 
+include str.fth
+include files.fth
 
 256 constant line-width
 
-0 value fd-in
-0 value fd-out
+variable line-buff line-width 2 + allot  \ line of a file
 
-create asmpath$ 128 allot             \ path to ASM file
-create line-buff line-width 2 + allot  \ line of a file
+variable asmpath$ 128 allot  \ path to ASM file
+variable memory 100 allot    \ "mailboxes"
 
 
-\ copy string constant to string variable
-: place$ over over >r >r char+ swap chars cmove r> r> c! ;
-
-\ copy string variable to another string variable
-: copy$ swap dup count 1+ swap drop rot swap cmove ;
-
-\ print string
-: print$ count type ;
-
-\ get length of string
-: length$ count swap drop ;
 
 \ load arguments from stdin, exit if bad arguments
 : load-stdin
@@ -38,32 +28,25 @@ create line-buff line-width 2 + allot  \ line of a file
     endif
 ;
 
-\ open input file at given path as read-only
-: open-infile ( straddr -- )
-    dup length$
-    r/o open-file throw to fd-in 
-    drop 
-;
-
-\ close input file given its handle
-: close-infile ( -- ) fd-in close-file throw ;
-
-\ print input file contents to console
-: print-infile ( -- )
+\ lex source file
+: lex ( -- )
     begin
         line-buff line-width fd-in read-line throw
     while
-        line-buff swap 
-        type cr
+        line-buff line-width upper$
+        
+        line-buff swap type cr
     repeat
 ;
 
 load-stdin
-
 asmpath$ open-infile
 
-print-infile
+lex
 
 close-infile
-
 cr bye
+
+\ to do list
+\   - continue loop when ';' encountered
+\   - gather up to 3 tokens per line

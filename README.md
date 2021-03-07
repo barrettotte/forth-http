@@ -1,5 +1,5 @@
 # Forth-LMC
-Little Man Computer (LMC) emulator and assembler written to practice Forth
+Little Man Computer (LMC) emulator written to practice Forth
 
 
 ## Little Man Computer (LMC)
@@ -24,13 +24,15 @@ used as a student's introduction to computer architecture.
 | | ```DAT``` | Data |
 
 
-## Assembler
+## Usage
+```gforth lmc.fth asm/test.asm```
 
 
 ## Prototype
-I've never written anything involving the LMC and I'm not very good at forth. So, I figured I would prototype things in python first.
+I've never written anything involving the LMC and I'm not very good at forth. 
+So, I figured I would prototype things in python first.
 
-Invoke prototype with ```python3 prototype/lmc.py asm/test.ams```
+Invoke prototype with ```python3 prototype/lmc.py asm/test.asm```
 
 
 ## References
