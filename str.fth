@@ -19,4 +19,7 @@
 : neq$ ( addr1 len1 addr2 len2 -- ? ) compare 0<> ;
 
 \ convert string to uppercase
-: upper$ ( addr len -- ) over + swap do i c@ toupper i c! loop ;
+: upper$ ( addr -- ) dup length$ over + swap do i c@ toupper i c! loop dup ;
+
+\ skip leading space characters
+: -leading ( addr len -- addr' len' ) bl skip ;

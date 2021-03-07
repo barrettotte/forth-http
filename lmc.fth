@@ -15,6 +15,20 @@ variable asmpath$ 128 allot  \ path to ASM file
 variable memory 100 allot    \ "mailboxes"
 
 
+\ opcodes
+000 constant op-DAT  \ data
+000 constant op-COB  \ coffee break
+000 constant op-HLT  \ halt
+100 constant op-ADD  \ add
+200 constant op-SUB  \ subtract
+300 constant op-STA  \ store
+500 constant op-LDA  \ load
+600 constant op-BRA  \ branch always
+700 constant op-BRZ  \ branch if zero
+800 constant op-BRP  \ branch if positive
+901 constant op-INP  \ input 
+902 constant op-OUT  \ output
+
 
 \ load arguments from stdin, exit if bad arguments
 : load-stdin
@@ -28,25 +42,45 @@ variable memory 100 allot    \ "mailboxes"
     endif
 ;
 
+: get-char
+    over over swap
+    chars + c@
+;
+
+\ strip comment from string
+: comment-
+    over + over swap over ( buf dst limit src )
+    do
+        i c@ 59 = if
+            leave
+        else
+            \ i c@ emit space
+            i c@ over c! char+
+        then
+    loop
+    over -
+;
+
 \ lex source file
 : lex ( -- )
     begin
         line-buff line-width fd-in read-line throw
     while
-        line-buff line-width upper$
-        
-        line-buff swap type cr
+        line-buff upper$         \ convert to uppercase
+        line-buff swap comment-  \ strip comments
+                
+        line-buff swap type cr   \ output (debug)
     repeat
 ;
 
-load-stdin
-asmpath$ open-infile
+\ entry point
+: lmc
+    load-stdin
+    asmpath$ open-infile
 
-lex
+    lex
 
-close-infile
-cr bye
+    close-infile
+;
 
-\ to do list
-\   - continue loop when ';' encountered
-\   - gather up to 3 tokens per line
+lmc cr bye
