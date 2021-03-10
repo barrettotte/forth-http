@@ -6,7 +6,7 @@ Little Man Computer (LMC), but I found out that I suck at writing Forth.
 So, that project idea will get used with a different language.
 
 Rather than spend multiple weeks trying to get better at Forth, I decided
-to just make something small and fun so I could move on.
+to just make something small and fun so I could move on to the next dumb side project.
 
 
 ## Summary
