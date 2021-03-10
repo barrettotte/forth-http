@@ -1,35 +1,61 @@
-require unix/socket.fs
+include unix/socket.fs
+include str.fth
 
-8067 constant port
+8004 constant fth-port
+255  constant queue-size
+2048 constant reqbuff-size
 
-create buf 1400 allot
-create server
-create socket
+create fth-server
+create fth-socket
 
-: listen-and-accept 
-  cr ." listening" server @ 128 listen cr ." done listen"
-  cr ." accepting" server @ accept-socket socket ! ." accepted socket" 
+\ append HTTP header to response
+: append-header s\" Content-Type: text/html\n\n" s+ 2swap s+ ;
+
+\ return 404 page
+: not-found ( -- addr u ) 2drop s" 404.html" slurp-file s\" HTTP/1.1 404 Not Found\n"  append-header ;
+
+\ check if requested file path exists
+: file-exists? ( addr u -- ? ) 2dup file-status nip 0= ;
+
+\ read request from client socket
+: get-req ( socket -- addr u ) pad reqbuff-size read-socket ;
+
+\ write response to client socket
+: send-resp ( addr u socket -- ) dup >R write-socket R> close-socket ;
+
+\ serve the file, otherwise respond with 404 page
+: serve-file ( addr1 u1 -- addr2 u2 )
+    file-exists? >R 
+    2dup drop c@ [char] / <> R> and if 
+        slurp-file s\" HTTP/1.1 200 OK\n" append-header
+    else
+        not-found
+    then 
 ;
 
-: response s\" HTTP/1.0 200 Ok\r\nContent-Type: text/html\r\n\r\n<html><head><title>hello</title></head><body><h1>hello world</h1></body></html>\r\n" 
-    socket @ write-socket
+\ process client request
+: handle-req ( addr u -- )
+    2dup bl -strip s" GET" str= if
+        [char] / after$ bl -strip serve-file
+    else
+        not-found
+    then
+    fth-socket @ send-resp
 ;
 
-: get-request socket @ buf 1400 read-socket ;
-
-: httpd (  -- )
-    cr ." Server started on http://127.0.0.1:" port . port create-server server ! cr 
-    ." server created"
+\ continually listen and accept new requests
+: server-loop
     begin
-        listen-and-accept
-        10 0 do \ 200 ms timeout
-            cr i . r@ .
-            get-request 
-            0> if 255 type response r> 9 >r else ." nada" then
-            20 ms 
-        loop
-        socket @ close-socket
-    again
+        fth-server @ queue-size listen
+        fth-server @ accept-socket fth-socket !
+        fth-socket @ get-req handle-req
+    again 
 ;
 
-httpd bye
+\ entry point
+: forth-http
+    ." Listening on http://127.0.0.1:" fth-port . ." ... " cr
+    fth-port create-server fth-server ! server-loop
+;
+
+forth-http cr bye
