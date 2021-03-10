@@ -9,8 +9,15 @@ Rather than spend multiple weeks trying to get better at Forth, I decided
 to just make something small and fun so I could move on.
 
 
+## Summary
+
+- Client sends requests for a file
+- Server responds with file if it exists, otherwise sends 404 page
+- Yeah, that's it
+
+
 ## References
 
-- [Gforth Manual](https://www.complang.tuwien.ac.at/forth/gforth/Docs-html/)
+- [Starting Forth](https://www.forth.com/starting-forth/)
 - [And so Forth...](https://thebeez.home.xs4all.nl/ForthPrimer/Forth_primer.html)
-
+- [Gforth Manual](https://www.complang.tuwien.ac.at/forth/gforth/Docs-html/)
