@@ -17,6 +17,8 @@ to just make something small and fun so I could move on to the next dumb side pr
 
 Usage: ```gforth server.fth```
 
+Server listens on ```127.0.0.1:8004```
+
 
 ## References
 
