@@ -15,6 +15,8 @@ to just make something small and fun so I could move on.
 - Server responds with file if it exists, otherwise sends 404 page
 - Yeah, that's it
 
+Usage: ```gforth server.fth```
+
 
 ## References
 
